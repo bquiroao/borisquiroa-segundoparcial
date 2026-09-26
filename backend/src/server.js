@@ -5,6 +5,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { db } from "./firebase.js";
 import authRoutes from "./routes/auth.js";
+import vehiculosRoutes from "./routes/vehiculos.js";
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,7 @@ app.get("/api/health", async (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/vehiculos", vehiculosRoutes);
 
 const server = http.createServer(app);
 export const io = new Server(server, { cors: { origin: "*" } });
