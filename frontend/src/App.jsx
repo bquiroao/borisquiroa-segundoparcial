@@ -17,6 +17,7 @@ export default function App() {
   const { user, logout } = useAuth();
   return (
     <>
+      <div className="autor">Proyecto desarrollado por Boris Alexander Quiroa Orellana · Carnet 1890-22-1413</div>
       <header className="top">
         <div className="wrap nav">
           <Link to="/" className="logo">🚗 SubastaGT</Link>
