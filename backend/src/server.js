@@ -2,10 +2,11 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import http from "http";
-import { Server } from "socket.io";
 import { db } from "./firebase.js";
+import { iniciarTiempoReal } from "./realtime.js";
 import authRoutes from "./routes/auth.js";
 import vehiculosRoutes from "./routes/vehiculos.js";
+import pujasRoutes from "./routes/pujas.js";
 
 const app = express();
 app.use(cors());
@@ -20,11 +21,15 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
+// Hora del servidor, para sincronizar el reloj del cliente
+app.get("/api/hora", (req, res) => res.json({ ahora: Date.now() }));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/vehiculos", vehiculosRoutes);
+app.use("/api/pujas", pujasRoutes);
 
 const server = http.createServer(app);
-export const io = new Server(server, { cors: { origin: "*" } });
+iniciarTiempoReal(server);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`API en http://localhost:${PORT}`));
